@@ -3,7 +3,6 @@
 #include <string.h>
 #include "header.h"
 
-
 const int rows=9,cols=17;
 const int r_rows = rows, r_cols = cols-2;
 
