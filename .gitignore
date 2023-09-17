@@ -1,1 +1,3 @@
 #this is git ignore we will put files to ignore here.
+.vscode/
+a.out
