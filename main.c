@@ -1,13 +1,17 @@
 #include "header.h"
 
-const int rows=9,cols=17;
-const int r_rows = rows, r_cols = cols-2;
+int rows,cols;
+int r_rows, r_cols;
 
 mouse_pos_t* mouse_start_pos = NULL;
 mouse_pos_t* mouse_end_pos = NULL;
 
 void main()
 {
+    rows = sizeof(sample_maze)/sizeof(sample_maze[0]);
+    cols = sizeof(sample_maze[0])/sizeof(sample_maze[0][0]);
+    r_rows = rows;
+    r_cols = cols-2;
     uint8_t **const maze_p = calloc(rows,sizeof(uint8_t*));
     for(int i=0 ; i<rows ; i++){
         maze_p[i] = calloc(cols,sizeof(uint8_t));
@@ -25,14 +29,10 @@ void main()
     
     print_maze(maze_sol);
     create_algo_maze(maze_sol);
-    draw_path(maze_sol);
-    printf("\n");
-    
+    draw_path(maze_sol);    
     solve_maze(maze_sol);
+    printf("\n");
     print_maze(maze_sol);
-    // printf("\033[\e[42m");
-    // printf(" ");
-    // printf("\033[0m\n");
 }
 
 void print_maze(uint8_t **maze){
@@ -135,8 +135,7 @@ void draw_path(uint8_t **maze){
             c_pos.row++;
         }
         else if(maze[c_pos.row-1][c_pos.col] == search_char){
-            c_pos.row++;
-            
+            c_pos.row--;
         }
         maze[c_pos.row][c_pos.col] = put;
         search_char--;
