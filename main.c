@@ -27,7 +27,12 @@ void main()
     create_algo_maze(maze_sol);
     draw_path(maze_sol);
     printf("\n");
+    
+    solve_maze(maze_sol);
     print_maze(maze_sol);
+    // printf("\033[\e[42m");
+    // printf(" ");
+    // printf("\033[0m\n");
 }
 
 void print_maze(uint8_t **maze){
@@ -107,37 +112,48 @@ void create_algo_maze(uint8_t **maze){
     }
 }
 //TODO: draw_path function pending
+uint8_t put;
 void draw_path(uint8_t **maze){
-    int row = mouse_start_pos->row+1;
-    int col = mouse_start_pos->col;
     mouse_pos_t c_pos = *mouse_start_pos;
+    uint8_t search_char = maze[mouse_start_pos->row][mouse_start_pos->col];
+    put = search_char+1;
+    maze[c_pos.row][c_pos.col] = put;
+    
+    c_pos.row = mouse_start_pos->row+1;
+    c_pos.col = mouse_start_pos->col;
+    maze[c_pos.row][c_pos.col] = put;
 
-    int search_count = 0;
-    int break_point = 1;
+    search_char -= 2;
     while(1){
-        
-        if(row == 0){
-            if(maze[c_pos.row][c_pos.col] > maze[c_pos.row][col-1]){
-                c_pos.col--;
-                printf("\033[\e[42m");
-                printf(" ");
-                printf("\033[0m\n");
-            }
-            if(maze[c_pos.row][c_pos.col] > maze[c_pos.row][col+1]){
-                c_pos.col++;
-                printf("\033[\e[42m");
-                printf(" ");
-                printf("\033[0m\n");
-            }
-            if(maze[c_pos.row][c_pos.col] > maze[c_pos.row+1][col]){
-                c_pos.row++;
-                printf("\033[\e[42m");
-                printf(" ");
-                printf("\033[0m\n");
-            }
+        if(maze[c_pos.row][c_pos.col-1] == search_char){
+            c_pos.col--;
         }
-        search_count++;
-        if(break_point== search_count)
-                break;
+        else if(maze[c_pos.row][c_pos.col+1] == search_char){
+            c_pos.col++;
+        }
+        else if(maze[c_pos.row+1][c_pos.col] == search_char){
+            c_pos.row++;
+        }
+        else if(maze[c_pos.row-1][c_pos.col] == search_char){
+            c_pos.row++;
+            
+        }
+        maze[c_pos.row][c_pos.col] = put;
+        search_char--;
+        if(search_char < '0')break;
+    }
+}
+
+void solve_maze(uint8_t **maze){
+    for(int i=0 ; i<r_rows; i++)
+    {
+        for (int j=0; j<r_cols; j++)
+        {
+            if(maze[i][j] != put)
+            maze[i][j] = '#';
+            else
+            maze[i][j] = ' ';
+        }
+        
     }
 }

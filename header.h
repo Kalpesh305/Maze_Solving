@@ -22,3 +22,4 @@ mouse_pos_t* fetch_entry_pos(uint8_t **maze);
 mouse_pos_t* fetch_exit_pos(uint8_t **maze);
 void create_algo_maze(uint8_t **maze);
 void draw_path(uint8_t **maze);
+void solve_maze(uint8_t **maze);
